@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_HUB_CREDENTIALS = credentials('doc-hub-creds')
+    }
+
+    stages {
+        stage('Check Docker Hub Login') {
+            steps {
+                script {
+                    // Attempt to login to Docker Hub using the provided credentials
+                    try {
+                        sh 'echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
+                        echo 'Successfully logged in to Docker Hub.'
+                    } catch (Exception e) {
+                        error 'Failed to log in to Docker Hub.'
+                    }
+                }
+            }
+        }
+    }
+}
