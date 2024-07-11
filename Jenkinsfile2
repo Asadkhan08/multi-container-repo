@@ -24,7 +24,7 @@ pipeline {
                 script {
                     // Step 2: Push Docker image to Docker Hub
                     docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
-                        docker.image("${DOCKER_IMAGE}").push() -v
+                        docker.image("${DOCKER_IMAGE}").push() -vvv
                     }
                 }
             }
