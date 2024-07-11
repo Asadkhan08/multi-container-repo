@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Step 1: Build Docker image
-                    sh "docker build -t ${DOCKER_IMAGE} ($PWD)/client/ ."
+                    sh "docker build -t ${DOCKER_IMAGE} ./client/ "
                 }
             }
         }
