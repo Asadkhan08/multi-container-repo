@@ -17,15 +17,22 @@ pipeline {
                 }
             }
         }
+            stages {
+        stage('Login to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    script {
+                        sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"
+                    }
+                }
+            }
+        }
 
-        stage('Push to Docker Hub') {
-          
+                stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Step 2: Push Docker image to Docker Hub
-                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
-                        docker.image("${DOCKER_IMAGE}").push()
-                    }
+                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    sh "docker push ${DOCKER_IMAGE}"
                 }
             }
         }
