@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')  // Jenkins credentials ID for Docker Hub
-        DOCKER_IMAGE = 'asadkhan08/fullstackproject:16-alpine'  // Your Docker image name
+        DOCKER_IMAGE = 'asadkhan08/fullstackproject:16-alpine-prod'  // Your Docker image name
         PRODUCTION_SERVER = 'localhost'  // Localhost address since Jenkins and Docker are on the same server
         PROD_DOCKER_IMAGE = 'asadkhan08/fullstackproject:16-alpine'  // Docker image for production deployment
     }
@@ -40,8 +40,9 @@ pipeline {
             steps {
                 script {
                     // Step 3: Pull and deploy Docker image on production server
-                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
-                        docker.image("${PROD_DOCKER_IMAGE}").pull()
+                    // docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                    //     docker.image("${PROD_DOCKER_IMAGE}").pull()
+                    sh "docker pull ${DOCKER_IMAGE}"
                     }
                     sh """
                     docker stop my_production_container || true
