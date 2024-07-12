@@ -30,7 +30,7 @@ pipeline {
                 stage('Build and Push Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    //sh "docker build -t ${DOCKER_IMAGE} ./client/ "
                     sh "docker push ${DOCKER_IMAGE}"
                 }
             }
