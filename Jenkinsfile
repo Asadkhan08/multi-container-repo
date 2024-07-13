@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')  // Jenkins credentials ID for Docker Hub
-        DOCKER_IMAGE = 'asadkhan08/fullstackproject:16-alpine-prod'  // Your Docker image name
+        DOCKER_IMAGE = 'asadkhan08/fullstackproject'  // Your Docker image name
         PRODUCTION_SERVER = 'localhost'  // Localhost address since Jenkins and Docker are on the same server
         PROD_DOCKER_IMAGE = 'asadkhan08/fullstackproject:16-alpine'  // Docker image for production deployment
     }
@@ -13,7 +13,10 @@ pipeline {
             steps {
                 script {
                     // Step 1: Build Docker image
-                    sh "docker build -t ${DOCKER_IMAGE} ./client/ "
+                    sh "docker build -t ${DOCKER_IMAGE}-client ./client/ "
+                    sh "docker build -t ${DOCKER_IMAGE}-nginx ./nginx/ "
+                    sh "docker build -t ${DOCKER_IMAGE}-server ./server/ "
+                    sh "docker build -t ${DOCKER_IMAGE}-worker ./worker/ "
                 }
             }
         }
@@ -31,7 +34,12 @@ pipeline {
             steps {
                 script {
                     //sh "docker build -t ${DOCKER_IMAGE} ./client/ "
-                    sh "docker push ${DOCKER_IMAGE}"
+                    sh """
+                    docker push ${DOCKER_IMAGE}-client
+                    docker push ${DOCKER_IMAGE}-nginx
+                    docker push ${DOCKER_IMAGE}-server
+                    docker push ${DOCKER_IMAGE}-worker
+                    """
                 }
             }
         }
