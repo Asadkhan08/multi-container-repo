@@ -44,23 +44,23 @@ pipeline {
             }
         }
 
-        // stage('Deploy to Production Server') {
-        //     steps {
-        //         script {
-        //             // Step 3: Pull and deploy Docker image on production server
-        //             // docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
-        //             //     docker.image("${PROD_DOCKER_IMAGE}").pull()
-        //             // sh "docker pull ${DOCKER_IMAGE}"
-        //             // }
-        //             sh """
-        //             docker pull ${DOCKER_IMAGE}
-        //             docker stop my_production_container || true
-        //             docker rm my_production_container || true
-        //             docker run -d --name my_production_container -p 80:80 ${PROD_DOCKER_IMAGE}
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Deploy to Production Server') {
+            steps {
+                script {
+                    // Step 3: Pull and deploy Docker image on production server
+                    // docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                    //     docker.image("${PROD_DOCKER_IMAGE}").pull()
+                    // sh "docker pull ${DOCKER_IMAGE}"
+                    // }
+                    sh """
+                    docker pull ${DOCKER_IMAGE}:client
+                    docker stop my_production_container || true
+                    docker rm my_production_container || true
+                    docker run -d --name my_production_container -p 80:80 ${PROD_DOCKER_IMAGE}:client
+                    """
+                }
+            }
+        }
 
         // stage('Clean Up') {
         //     steps {
