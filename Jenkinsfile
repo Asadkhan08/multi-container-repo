@@ -54,8 +54,8 @@ pipeline {
                     // }
                     sh """
                     docker pull ${DOCKER_IMAGE}:client
-                    docker stop my_production_container || true
-                    docker rm my_production_container || true
+                    // docker stop my_production_container || true
+                    // docker rm my_production_container || true
                     docker run -d --name my_production_container -p 80:80 ${PROD_DOCKER_IMAGE}:client
                     """
                 }
