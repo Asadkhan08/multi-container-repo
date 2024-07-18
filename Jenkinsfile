@@ -38,7 +38,7 @@ pipeline {
                     docker push ${DOCKER_IMAGE}:client
                     docker push ${DOCKER_IMAGE}:nginx
                     docker push ${DOCKER_IMAGE}:server
-                    docker push ${DOCKER_IMAGE}-worker
+                    docker push ${DOCKER_IMAGE}:worker
                     """
                 }
             }
